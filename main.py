@@ -24,6 +24,10 @@ tokenized_data = tokenizer.tokenize(sample)
 text_tokens = tokenized_data["text_tokens"]  # Tokenized text
 image_tokens = tokenized_data["images"]  # Preprocessed image
 
+# Print shapes
+print("Text Tokens Shape:", text_tokens.shape)
+print("Image Tokens Shape:", image_tokens.shape)
+
 # Perform forward pass with the model
 with torch.no_grad():  # If you're just inference, no need to compute gradients
     output_logits = model(image_tokens, text_tokens)
