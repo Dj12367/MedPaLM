@@ -3,50 +3,48 @@ from medpalm.model import MedPalm
 from transformers import AutoTokenizer, CLIPProcessor
 from model import MedPalmTokenizer
 from PIL import Image
-import torchvision.transforms as transforms
+import torch.nn.functional as F
 
-# # Assuming MedPalmTokenizer class is already defined
-#
-# # Initialize the tokenizer and model
-# tokenizer = MedPalmTokenizer()
+# Assuming MedPalmTokenizer class is already defined
+
+# Initialize the tokenizer and model
+tokenizer = MedPalmTokenizer()
 model = MedPalm()
-# img = Image.open('download.jpeg')
-#
-# # Example text and image (assuming you have a loaded image as `img`)
-# sample = {
-#     "target_text": "This is a medical description involving an image.",
-#     "image": img,  # Your PIL image or numpy array image
-# }
-#
-# # Tokenize the sample
-# tokenized_data = tokenizer.tokenize(sample)
-#
-# # Extract the tokenized inputs
-# text_tokens = tokenized_data["text_tokens"]  # Tokenized text
-# image_tokens = tokenized_data["images"]  # Preprocessed image
-#
-# resize_transform = transforms.Compose([
-#     transforms.Resize((256, 256)),  # Resize to 256x256
-# ])
-# resized_images = resize_transform(image_tokens.squeeze(0))  # Remove batch dimension temporarily
-# resized_images = resized_images.unsqueeze(0)  # Now shape is (1, 3, 256, 256)
-#
-# image_tokens = resized_images
-#
-# # Print shapes
-# print("Text Tokens Shape:", text_tokens.shape)
-# print("Image Tokens Shape:", image_tokens.shape)
+img = Image.open('download.jpeg')
 
-image_tokens = torch.randn(1, 3, 256, 256)
-text_tokens = torch.randint(0, 20000, (1, 4096))
+# Example text and image (assuming you have a loaded image as `img`)
+sample = {
+    "target_text": "This is a medical description involving an image.",
+    "image": img,  # Your PIL image or numpy array image
+}
+
+# Tokenize the sample
+tokenized_data = tokenizer.tokenize(sample)
+
+# Extract the tokenized inputs
+text_tokens = tokenized_data["text_tokens"]  # Tokenized text
+image_tokens = tokenized_data["images"]  # Preprocessed image
+
+# Define the desired shapes
+desired_text_shape = (1, 8192)
+desired_image_shape = (1, 3, 512, 512)
+
+# Pad the text tokens
+text_pad_amount = desired_text_shape[1] - text_tokens.shape[1]
+text_tokens_padded = F.pad(text_tokens, (0, text_pad_amount), "constant", 0)
+
+# Pad the image tokens
+image_pad_height = desired_image_shape[2] - image_tokens.shape[2]
+image_pad_width = desired_image_shape[3] - image_tokens.shape[3]
+image_tokens_padded = F.pad(image_tokens, (0, image_pad_width, 0, image_pad_height), "constant", 0)
 
 # Print shapes
-print("Text Tokens Shape:", text_tokens.shape)
-print("Image Tokens Shape:", image_tokens.shape)
+print("Text Tokens Shape:", text_tokens_padded.shape)
+print("Image Tokens Shape:", image_tokens_padded.shape)
 
 # Perform forward pass with the model
 with torch.no_grad():  # If you're just inference, no need to compute gradients
-    output_logits = model(image_tokens, text_tokens)
+    output_logits = model(image_tokens_padded, text_tokens_padded)
 
 # Get the predicted token ids from the output logits (argmax for highest probability tokens)
 predicted_token_ids = torch.argmax(output_logits, dim=-1)
