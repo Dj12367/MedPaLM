@@ -1,12 +1,15 @@
 import torch
 from medpalm.model import MedPalm
 from transformers import AutoTokenizer, CLIPProcessor
+from model import MedPalmTokenizer
+from PIL import Image
 
 # Assuming MedPalmTokenizer class is already defined
 
 # Initialize the tokenizer and model
 tokenizer = MedPalmTokenizer()
 model = MedPalm()
+img = Image.open('download.jpeg')
 
 # Example text and image (assuming you have a loaded image as `img`)
 sample = {
