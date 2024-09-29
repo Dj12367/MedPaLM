@@ -36,7 +36,9 @@ text_tokens_padded = F.pad(text_tokens, (0, text_pad_amount), "constant", 0)
 min_val = text_tokens_padded.min()
 max_val = text_tokens_padded.max()
 text_tokens_scaled = ((text_tokens_padded - min_val) / (max_val - min_val)) * 1999
-text_tokens_padded = text_tokens_padded.long()
+
+text_tokens_scaled = text_tokens_scaled.long()
+
 # Print the minimum and maximum of the scaled tokens to verify
 print("Scaled Text Tokens Min:", text_tokens_scaled.min().item())
 print("Scaled Text Tokens Max:", text_tokens_scaled.max().item())
