@@ -33,23 +33,24 @@ desired_image_shape = (1, 3, 256, 256)
 text_pad_amount = desired_text_shape[1] - text_tokens.shape[1]
 text_tokens_padded = F.pad(text_tokens, (0, text_pad_amount), "constant", 0)
 
+min_val = text_tokens_padded.min()
+max_val = text_tokens_padded.max()
+text_tokens_scaled = ((text_tokens_padded - min_val) / (max_val - min_val)) * 1999
+# Print the minimum and maximum of the scaled tokens to verify
+print("Scaled Text Tokens Min:", text_tokens_scaled.min().item())
+print("Scaled Text Tokens Max:", text_tokens_scaled.max().item())
+print("Scaled Text Tokens Shape:", text_tokens_scaled.shape)
+
 # Pad the image tokens
 image_pad_height = desired_image_shape[2] - image_tokens.shape[2]
 image_pad_width = desired_image_shape[3] - image_tokens.shape[3]
 image_tokens_padded = F.pad(image_tokens, (0, image_pad_width, 0, image_pad_height), "constant", 0)
 
-# Print shapes
-print("Text Tokens Shape:", text_tokens_padded.shape)
 print("Image Tokens Shape:", image_tokens_padded.shape)
-
-img = torch.randn(1, 3, 256, 256)
-text = torch.randint(0, 20000, (1, 4096))
-print("Text Tokens Shape:", img.shape)
-print("Image Tokens Shape:", text.shape)
 
 # Perform forward pass with the model
 with torch.no_grad():  # If you're just inference, no need to compute gradients
-    output_logits = model(img, text)
+    output_logits = model(image_tokens_padded, text_tokens_scaled)
 print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
