@@ -19,6 +19,7 @@ transform = transforms.Compose([
 
 img = transform(img)
 
+print("Image Tokens Shape:", img.shape)
 
 # Example text and image (assuming you have a loaded image as `img`)
 sample = {
