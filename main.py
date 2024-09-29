@@ -3,6 +3,7 @@ from medpalm.model import MedPalm
 from transformers import AutoTokenizer, CLIPProcessor
 from model import MedPalmTokenizer
 from PIL import Image
+import torchvision.transforms as transforms
 
 # Assuming MedPalmTokenizer class is already defined
 
@@ -10,6 +11,14 @@ from PIL import Image
 tokenizer = MedPalmTokenizer()
 model = MedPalm()
 img = Image.open('download.jpeg')
+
+transform = transforms.Compose([
+    transforms.Resize((256, 256)),  # Resize to 256x256
+    transforms.ToTensor()  # Convert PIL image to tensor
+])
+
+img = transform(img)
+
 
 # Example text and image (assuming you have a loaded image as `img`)
 sample = {
