@@ -9,7 +9,7 @@ import torchvision.transforms as transforms
 #
 # # Initialize the tokenizer and model
 # tokenizer = MedPalmTokenizer()
-# model = MedPalm()
+model = MedPalm()
 # img = Image.open('download.jpeg')
 #
 # # Example text and image (assuming you have a loaded image as `img`)
