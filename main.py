@@ -31,6 +31,8 @@ resize_transform = transforms.Compose([
 resized_images = resize_transform(image_tokens.squeeze(0))  # Remove batch dimension temporarily
 resized_images = resized_images.unsqueeze(0)  # Now shape is (1, 3, 256, 256)
 
+image_tokens = resized_images
+
 # Print shapes
 print("Text Tokens Shape:", text_tokens.shape)
 print("Image Tokens Shape:", image_tokens.shape)
