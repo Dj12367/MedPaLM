@@ -42,9 +42,14 @@ image_tokens_padded = F.pad(image_tokens, (0, image_pad_width, 0, image_pad_heig
 print("Text Tokens Shape:", text_tokens_padded.shape)
 print("Image Tokens Shape:", image_tokens_padded.shape)
 
+img = torch.randn(1, 3, 256, 256)
+text = torch.randint(0, 20000, (1, 4096))
+print("Text Tokens Shape:", img.shape)
+print("Image Tokens Shape:", text.shape)
+
 # Perform forward pass with the model
 with torch.no_grad():  # If you're just inference, no need to compute gradients
-    output_logits = model(image_tokens_padded, text_tokens_padded)
+    output_logits = model(img, text)
 print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
