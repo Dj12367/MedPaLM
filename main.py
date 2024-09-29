@@ -26,8 +26,8 @@ text_tokens = tokenized_data["text_tokens"]  # Tokenized text
 image_tokens = tokenized_data["images"]  # Preprocessed image
 
 # Define the desired shapes
-desired_text_shape = (1, 8192)
-desired_image_shape = (1, 3, 512, 512)
+desired_text_shape = (1, 4096)
+desired_image_shape = (1, 3, 256, 256)
 
 # Pad the text tokens
 text_pad_amount = desired_text_shape[1] - text_tokens.shape[1]
