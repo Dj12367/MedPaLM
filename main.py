@@ -5,33 +5,40 @@ from model import MedPalmTokenizer
 from PIL import Image
 import torchvision.transforms as transforms
 
-# Assuming MedPalmTokenizer class is already defined
+# # Assuming MedPalmTokenizer class is already defined
+#
+# # Initialize the tokenizer and model
+# tokenizer = MedPalmTokenizer()
+# model = MedPalm()
+# img = Image.open('download.jpeg')
+#
+# # Example text and image (assuming you have a loaded image as `img`)
+# sample = {
+#     "target_text": "This is a medical description involving an image.",
+#     "image": img,  # Your PIL image or numpy array image
+# }
+#
+# # Tokenize the sample
+# tokenized_data = tokenizer.tokenize(sample)
+#
+# # Extract the tokenized inputs
+# text_tokens = tokenized_data["text_tokens"]  # Tokenized text
+# image_tokens = tokenized_data["images"]  # Preprocessed image
+#
+# resize_transform = transforms.Compose([
+#     transforms.Resize((256, 256)),  # Resize to 256x256
+# ])
+# resized_images = resize_transform(image_tokens.squeeze(0))  # Remove batch dimension temporarily
+# resized_images = resized_images.unsqueeze(0)  # Now shape is (1, 3, 256, 256)
+#
+# image_tokens = resized_images
+#
+# # Print shapes
+# print("Text Tokens Shape:", text_tokens.shape)
+# print("Image Tokens Shape:", image_tokens.shape)
 
-# Initialize the tokenizer and model
-tokenizer = MedPalmTokenizer()
-model = MedPalm()
-img = Image.open('download.jpeg')
-
-# Example text and image (assuming you have a loaded image as `img`)
-sample = {
-    "target_text": "This is a medical description involving an image.",
-    "image": img,  # Your PIL image or numpy array image
-}
-
-# Tokenize the sample
-tokenized_data = tokenizer.tokenize(sample)
-
-# Extract the tokenized inputs
-text_tokens = tokenized_data["text_tokens"]  # Tokenized text
-image_tokens = tokenized_data["images"]  # Preprocessed image
-
-resize_transform = transforms.Compose([
-    transforms.Resize((256, 256)),  # Resize to 256x256
-])
-resized_images = resize_transform(image_tokens.squeeze(0))  # Remove batch dimension temporarily
-resized_images = resized_images.unsqueeze(0)  # Now shape is (1, 3, 256, 256)
-
-image_tokens = resized_images
+image_tokens = torch.randn(1, 3, 256, 256)
+text_tokens = torch.randint(0, 20000, (1, 4096))
 
 # Print shapes
 print("Text Tokens Shape:", text_tokens.shape)
