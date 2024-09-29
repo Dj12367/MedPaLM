@@ -12,15 +12,6 @@ tokenizer = MedPalmTokenizer()
 model = MedPalm()
 img = Image.open('download.jpeg')
 
-transform = transforms.Compose([
-    transforms.Resize((256, 256)),  # Resize to 256x256
-    transforms.ToTensor()  # Convert PIL image to tensor
-])
-
-img = transform(img)
-
-print("Image Tokens Shape:", img.shape)
-
 # Example text and image (assuming you have a loaded image as `img`)
 sample = {
     "target_text": "This is a medical description involving an image.",
@@ -33,6 +24,12 @@ tokenized_data = tokenizer.tokenize(sample)
 # Extract the tokenized inputs
 text_tokens = tokenized_data["text_tokens"]  # Tokenized text
 image_tokens = tokenized_data["images"]  # Preprocessed image
+
+resize_transform = transforms.Compose([
+    transforms.Resize((256, 256)),  # Resize to 256x256
+])
+resized_images = resize_transform(image_tokens.squeeze(0))  # Remove batch dimension temporarily
+resized_images = resized_images.unsqueeze(0)  # Now shape is (1, 3, 256, 256)
 
 # Print shapes
 print("Text Tokens Shape:", text_tokens.shape)
