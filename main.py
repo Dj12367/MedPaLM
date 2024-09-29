@@ -45,6 +45,12 @@ print("Image Tokens Shape:", image_tokens_padded.shape)
 # Perform forward pass with the model
 with torch.no_grad():  # If you're just inference, no need to compute gradients
     output_logits = model(image_tokens_padded, text_tokens_padded)
+print("FUCK FUCK FUCK")
+print("FUCK FUCK FUCK")
+print("FUCK FUCK FUCK")
+print("FUCK FUCK FUCK")
+print("FUCK FUCK FUCK")
+print("FUCK FUCK FUCK")
 
 # Get the predicted token ids from the output logits (argmax for highest probability tokens)
 predicted_token_ids = torch.argmax(output_logits, dim=-1)
