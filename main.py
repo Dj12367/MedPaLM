@@ -61,7 +61,7 @@ print(output_logits[1].shape)
 
 
 # Get the predicted token ids from the output logits (argmax for highest probability tokens)
-predicted_token_ids = torch.argmax(output_logits, dim=-1)
+predicted_token_ids = torch.argmax(output_logits[0], dim=-1)
 
 # Convert the token ids back into text using the tokenizer
 generated_text = tokenizer.tokenizer.batch_decode(predicted_token_ids, skip_special_tokens=True)
