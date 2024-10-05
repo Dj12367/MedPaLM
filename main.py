@@ -56,7 +56,9 @@ with torch.no_grad():  # If you're just inference, no need to compute gradients
     output_logits = model(image_tokens_padded, text_tokens_scaled)
 
 print(output_logits)
-print(output_logits.shape)
+print(output_logits[0].shape)
+print(output_logits[1].shape)
+
 
 # Get the predicted token ids from the output logits (argmax for highest probability tokens)
 predicted_token_ids = torch.argmax(output_logits, dim=-1)
