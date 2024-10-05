@@ -60,6 +60,7 @@ print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
 print("FUCK FUCK FUCK")
+print(output_logits)
 
 # Get the predicted token ids from the output logits (argmax for highest probability tokens)
 predicted_token_ids = torch.argmax(output_logits, dim=-1)
